@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  usersmanagement:
+    image: microservices/usersmanagement:latest
+    restart: always
+
+  restapi:
+    image: microservices/restapi:latest
+    ports:
+          - "8094:8094"
+    restart: always
