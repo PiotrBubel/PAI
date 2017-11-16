@@ -1,0 +1,49 @@
+.center-block{
+    text-align:center;
+}
+
+body > .container {
+    padding: 40px 10px;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+.container-margin-bottom {
+    margin-bottom: 60px;
+}
+
+.color-warning {
+    color: darkred;
+}
+
+.form-header {
+    padding-bottom: 15px;
+}
+
+.message-container {
+    padding: 20px 20px 20px 20px;
+}
+
+.not-resizable {
+    resize: none;
+}
+
+.padding-bottom-list {
+    padding-bottom: 5px;
+}
+
+.padding-top {
+    padding-top: 25px;
+}
+
+.multiline-text-from-textarea {
+    background-color: transparent !important;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    cursor: default;
+    padding-left: 0;
+    padding-right: 0;
+}

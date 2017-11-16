@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col-md-4">
+        <h4 class="form-header">Dostępne usługi:</h4>
+        <div class="list-group">
+            <div ng-repeat="name in services">
+                <a ng-click="changeSelected(name)" class="list-group-item"
+                   ng-class="(name==serviceData.name) ? 'active' : ''">
+                    {{ name }}
+                </a>
+            </div>
+            <a ng-if="canManageRooms" class="list-group-item list-group-item-success" ng-click="setNew()">
+                -- nowa --
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div ng-if="canManageRooms">
+            <h4 class="form-header" ng-if="!createNew">Edycja usługi {{ serviceData.name }}</h4>
+            <h4 class="form-header" ng-if="createNew">Tworzenie nowej usługi</h4>
+            <form name="serviceForm" novalidate>
+                <div class="row">
+                    <div class="col-md-4">
+                        Nazwa usługi:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': serviceForm.name.$error.required && serviceForm.name.$dirty }">
+                        <input class="form-control" type="text" name="name" ng-model="serviceData.name"
+                               ng-required="true"
+                               ng-disabled="!createNew">
+                        <div class="color-warning"
+                             ng-show="serviceForm.name.$error.required && serviceForm.name.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Cena usługi (PLN/dzień):
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': serviceForm.price.$error.required && serviceForm.price.$dirty }">
+                        <input class="form-control" type="number" name="price" ng-model="serviceData.price"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="serviceForm.price.$error.required && serviceForm.price.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Opis usługi:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': serviceForm.description.$error.required && serviceForm.description.$dirty }">
+                        <textarea class="form-control not-resizable" rows="5" name="description"
+                                  ng-model="serviceData.description"
+                                  ng-required="false"></textarea>
+                        <div class="color-warning"
+                             ng-show="serviceForm.description.$error.required && serviceForm.description.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="createNew" class="btn-group">
+                    <button type="submit" class="btn btn-success" ng-click="saveNewService()"
+                            ng-disabled="serviceForm.$invalid">
+                        Dodaj
+                    </button>
+                </div>
+                <div ng-if="!createNew" class="btn-group">
+                    <button type="submit" class="btn btn-success" ng-click="editService()"
+                            ng-disabled="serviceForm.$invalid">
+                        Edytuj
+                    </button>
+                    <button class="btn btn-warning" ng-click="removeService()">
+                        Usuń
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div ng-if="!canManageRooms">
+            <h4 class="form-header">Informacje o usłudze {{ serviceData.name }}</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    Nazwa usługi:
+                </div>
+                <div class="col-md-8">
+                    {{ serviceData.name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Opis usługi:
+                </div>
+                <div class="col-md-8">
+                    <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="Service description"
+                              ng-model="serviceData.description" disabled></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Cena usługi (PLN/dzień):
+                </div>
+                <div class="col-md-8">
+                    {{ serviceData.price + 'PLN' }}
+                    <span ng-if="!helper.wholeDay">{{serviceData.timePeriod }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-container">
+            <div ng-model="errorMessage" ng-show="showErrorMessage" class="alert alert-danger fade in">
+                <strong>{{ errorMessage }}</strong> {{ errorDescription }}
+            </div>
+            <div ng-model="successMessage" ng-show="showSuccessMessage" class="alert alert-success fade in">
+                <strong>{{ successMessage }}</strong> {{ successDescription }}
+            </div>
+        </div>
+    </div>
+</div>

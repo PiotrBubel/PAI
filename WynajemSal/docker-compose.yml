@@ -1,0 +1,66 @@
+version: "2"
+
+services:
+  mongobookingdatabase:
+    image: microservices/mongobookingdatabase:latest
+    volumes:
+     - /data/db/bookings:/data/db
+    restart: always
+
+  mongoroomsdatabase:
+    image: microservices/mongoroomsdatabase:latest
+    volumes:
+     - /data/db/rooms:/data/db
+    restart: always
+
+  mongobookingdatabaseproxy:
+    image: microservices/mongobookingdatabaseproxy:latest
+    links:
+      - mongobookingdatabase
+    restart: always
+
+  mongoroomsdatabaseproxy:
+    image: microservices/mongoroomsdatabaseproxy:latest
+    links:
+      - mongoroomsdatabase
+    restart: always
+
+  mongousersdatabase:
+    image: microservices/mongousersdatabase:latest
+    volumes:
+     - /data/db/users:/data/db
+    restart: always
+
+  mongousersdatabaseproxy:
+    image: microservices/mongousersdatabaseproxy:latest
+    links:
+      - mongousersdatabase
+    restart: always
+
+  roomsmanagement:
+    image: microservices/roomsmanagement:latest
+    restart: always
+
+  usersmanagement:
+    image: microservices/usersmanagement:latest
+    restart: always
+
+  bookingmanagement:
+    image: microservices/bookingmanagement:latest
+    restart: always
+
+  authservice:
+    image: microservices/authservice:latest
+    restart: always
+
+  restapi:
+    image: microservices/restapi:latest
+    ports:
+          - "8094:8094"
+    restart: always
+
+  frontend:
+    image: microservices/frontend:latest
+    ports:
+          - "80:80"
+    restart: always

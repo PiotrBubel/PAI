@@ -1,0 +1,9 @@
+package pl.lodz.p.microservices.proxy.mongo;
+
+enum Methods {
+    GET_USERS_LIST_FROM_DATABASE,
+    GET_USER_DETAILS_FROM_DATABASE,
+    SAVE_NEW_USER_IN_DATABASE,
+    DELETE_USER_FROM_DATABASE,
+    EDIT_USER_IN_DATABASE
+}
