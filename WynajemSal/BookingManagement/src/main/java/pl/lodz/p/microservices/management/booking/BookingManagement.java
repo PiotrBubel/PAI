@@ -113,8 +113,8 @@ public class BookingManagement extends AbstractVerticle {
             inMessage.fail(400, "Received method call without JsonObject");
             return;
         } else if (!inMessage.body().containsKey("name") || StringUtils.isBlank(inMessage.body().getString("name"))) {
-            log.error("Received GET_TAKEN_DATES_LIST command without service name");
-            inMessage.fail(400, "Bad request. Field 'serviceName' is required.");
+            log.error("Received GET_TAKEN_DATES_LIST command without room name");
+            inMessage.fail(400, "Bad request. Field 'roomName' is required.");
             return;
         } else if (!inMessage.body().containsKey("date") || StringUtils.isBlank(inMessage.body().getString("date"))) {
             log.error("Received GET_TAKEN_DATES_LIST command without date prefix");
@@ -122,7 +122,7 @@ public class BookingManagement extends AbstractVerticle {
             return;
         }
 
-        JsonObject query = new JsonObject().put("serviceName", inMessage.body().getString("name")
+        JsonObject query = new JsonObject().put("roomName", inMessage.body().getString("name")
         ).put("date", inMessage.body().getString("date"));
 
         eventBus.send(DATABASE_BOOKING_PROXY_SERVICE_ADDRESS, query,
@@ -155,10 +155,10 @@ public class BookingManagement extends AbstractVerticle {
             log.error("Received SAVE_NEW_BOOKING command without user login");
             inMessage.fail(400, "Bad Request. Field 'userLogin' is required.");
             return;
-        } else if (!newBooking.containsKey("serviceName") ||
-                StringUtils.isBlank(newBooking.getString("serviceName"))) {
-            log.error("Received SAVE_NEW_BOOKING command without service name");
-            inMessage.fail(400, "Bad Request. Field 'serviceName' is required.");
+        } else if (!newBooking.containsKey("roomName") ||
+                StringUtils.isBlank(newBooking.getString("roomName"))) {
+            log.error("Received SAVE_NEW_BOOKING command without room name");
+            inMessage.fail(400, "Bad Request. Field 'roomName' is required.");
             return;
         } else if (!newBooking.containsKey("date") ||
                 StringUtils.isBlank(newBooking.getString("date"))) {

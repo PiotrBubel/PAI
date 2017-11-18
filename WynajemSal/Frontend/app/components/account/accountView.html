@@ -10,7 +10,7 @@
                     <div ng-repeat="booking in bookings">
                         <a ng-click="getBooking(booking.id)" class="list-group-item"
                            ng-class="(booking.id == selected.id) ? 'active' : ''">
-                            {{ booking.date + ' ' + booking.serviceName}}
+                            {{ booking.date + ' ' + booking.roomName}}
                         </a>
                     </div>
                     <a class="list-group-item list-group-item-success" ng-href="#!/bookings">
@@ -60,7 +60,7 @@
                 <div class="col-md-8">
                     <div ng-if="userData.permissions.canManageUsers">użytkowników </div>
                     <div ng-if="userData.permissions.canManageBookings">rezerwacji </div>
-                    <div ng-if="userData.permissions.canManageRooms">usług </div>
+                    <div ng-if="userData.permissions.canManageRooms">pokojów </div>
                 </div>
             </div>
 
@@ -77,10 +77,10 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    Nazwa usługi:
+                    Nazwa sali:
                 </div>
                 <div class="col-md-8">
-                    {{selected.serviceName}}
+                    {{selected.roomName}}
                 </div>
             </div>
 
@@ -106,16 +106,16 @@
                     Cena:
                 </div>
                 <div class="col-md-8">
-                    {{selected.service.price}}
+                    {{selected.room.price}}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    Opis usługi:
+                    Opis pokojów:
                 </div>
                 <div class="col-md-8">
-                    <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="serviceSescription"
-                              ng-model="selected.service.description" disabled></textarea>
+                    <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="roomSescription"
+                              ng-model="selected.room.description" disabled></textarea>
                 </div>
             </div>
         </div>

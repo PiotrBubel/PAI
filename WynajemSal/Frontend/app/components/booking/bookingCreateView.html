@@ -5,11 +5,11 @@
     <div ng-if="userLoggedIn">
 
         <div class="col-md-4">
-            <h4 class="form-header">Dostępne usługi:</h4>
+            <h4 class="form-header">Dostępne pokoje:</h4>
             <div class="list-group">
-                <div ng-repeat="name in services">
+                <div ng-repeat="name in rooms">
                     <a ng-click="changeSelected(name)" class="list-group-item"
-                       ng-class="(name==serviceData.name) ? 'active' : ''">
+                       ng-class="(name==roomData.name) ? 'active' : ''">
                         {{ name }}
                     </a>
                 </div>
@@ -20,18 +20,18 @@
         </div>
 
         <div class="col-md-8">
-            <h4 class="form-header">Zarezerwuj usługę {{ serviceData.name }}</h4>
+            <h4 class="form-header">Zarezerwuj pokój {{ roomData.name }}</h4>
             <div class="row">
                 <div class="col-md-4">
                     Notatka do rezerwacji:
                 </div>
                 <div class="col-md-8 form-group"
-                     ng-class="{ 'has-error': serviceForm.description.$error.required && serviceForm.description.$dirty }">
+                     ng-class="{ 'has-error': roomForm.description.$error.required && roomForm.description.$dirty }">
                         <textarea class="form-control not-resizable" rows="5" name="description"
                                   ng-model="bookingToSave.bookingDescription"
                                   ng-required="false"></textarea>
                     <div class="color-warning"
-                         ng-show="serviceForm.description.$error.required && serviceForm.description.$dirty">
+                         ng-show="roomForm.description.$error.required && roomForm.description.$dirty">
                         Pole jest wymagane
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="panel-heading">
                         <div class="panel-title">
                             <a data-toggle="collapse" data-target="#info">
-                                Informacje o usłudze {{ serviceData.name }}</a>
+                                Informacje o pokoju {{ roomData.name }}</a>
                         </div>
                     </div>
                     <div id="info" class="panel-collapse collapse">
@@ -62,27 +62,27 @@
 
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Nazwa usługi:
+                                        Nazwa pokoju:
                                     </div>
                                     <div class="col-md-8">
-                                        {{ serviceData.name }}
+                                        {{ roomData.name }}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Opis usługi:
+                                        Opis pokoju:
                                     </div>
                                     <div class="col-md-8">
                         <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="description"
-                                  ng-model="serviceData.description" disabled></textarea>
+                                  ng-model="roomData.description" disabled></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Cena usługi:
+                                        Cena pokoju:
                                     </div>
                                     <div class="col-md-8">
-                                        {{ serviceData.price + ' PLN' }}
+                                        {{ roomData.price + ' PLN' }}
                                     </div>
                                 </div>
                             </div>

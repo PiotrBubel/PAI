@@ -17,8 +17,8 @@ myApp.factory("bookingFactory", function ($http, $rootScope, appConfig) {
         getDetails: function (id) {
             return $http.get(appConfig.apiAddress + '/bookings/' + id, headers());
         },
-        getDates: function (serviceName, datePrefix) {
-            return $http.get(appConfig.apiAddress + '/bookings/dates/' + serviceName + '/' + datePrefix, headers());
+        getDates: function (roomName, datePrefix) {
+            return $http.get(appConfig.apiAddress + '/bookings/dates/' + roomName + '/' + datePrefix, headers());
         },
         edit: function (id, bookingData) {
             return $http.put(appConfig.apiAddress + '/bookings/' + id, {booking: bookingData}, headers());

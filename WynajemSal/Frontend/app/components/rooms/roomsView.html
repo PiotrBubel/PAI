@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-4">
-        <h4 class="form-header">Dostępne usługi:</h4>
+        <h4 class="form-header">Dostępne sale:</h4>
         <div class="list-group">
-            <div ng-repeat="name in services">
+            <div ng-repeat="name in rooms">
                 <a ng-click="changeSelected(name)" class="list-group-item"
-                   ng-class="(name==serviceData.name) ? 'active' : ''">
+                   ng-class="(name==roomData.name) ? 'active' : ''">
                     {{ name }}
                 </a>
             </div>
@@ -16,65 +16,65 @@
 
     <div class="col-md-8">
         <div ng-if="canManageRooms">
-            <h4 class="form-header" ng-if="!createNew">Edycja usługi {{ serviceData.name }}</h4>
-            <h4 class="form-header" ng-if="createNew">Tworzenie nowej usługi</h4>
-            <form name="serviceForm" novalidate>
+            <h4 class="form-header" ng-if="!createNew">Edycja sali {{ roomData.name }}</h4>
+            <h4 class="form-header" ng-if="createNew">Tworzenie nowej sali</h4>
+            <form name="roomForm" novalidate>
                 <div class="row">
                     <div class="col-md-4">
-                        Nazwa usługi:
+                        Nazwa sali:
                     </div>
                     <div class="col-md-8 form-group"
-                         ng-class="{ 'has-error': serviceForm.name.$error.required && serviceForm.name.$dirty }">
-                        <input class="form-control" type="text" name="name" ng-model="serviceData.name"
+                         ng-class="{ 'has-error': roomForm.name.$error.required && roomForm.name.$dirty }">
+                        <input class="form-control" type="text" name="name" ng-model="roomData.name"
                                ng-required="true"
                                ng-disabled="!createNew">
                         <div class="color-warning"
-                             ng-show="serviceForm.name.$error.required && serviceForm.name.$dirty">
+                             ng-show="roomForm.name.$error.required && roomForm.name.$dirty">
                             Pole jest wymagane
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        Cena usługi (PLN/dzień):
+                        Cena sali (PLN/dzień):
                     </div>
                     <div class="col-md-8 form-group"
-                         ng-class="{ 'has-error': serviceForm.price.$error.required && serviceForm.price.$dirty }">
-                        <input class="form-control" type="number" name="price" ng-model="serviceData.price"
+                         ng-class="{ 'has-error': roomForm.price.$error.required && roomForm.price.$dirty }">
+                        <input class="form-control" type="number" name="price" ng-model="roomData.price"
                                ng-required="true">
                         <div class="color-warning"
-                             ng-show="serviceForm.price.$error.required && serviceForm.price.$dirty">
+                             ng-show="roomForm.price.$error.required && roomForm.price.$dirty">
                             Pole jest wymagane
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        Opis usługi:
+                        Opis sali:
                     </div>
                     <div class="col-md-8 form-group"
-                         ng-class="{ 'has-error': serviceForm.description.$error.required && serviceForm.description.$dirty }">
+                         ng-class="{ 'has-error': roomForm.description.$error.required && roomForm.description.$dirty }">
                         <textarea class="form-control not-resizable" rows="5" name="description"
-                                  ng-model="serviceData.description"
+                                  ng-model="roomData.description"
                                   ng-required="false"></textarea>
                         <div class="color-warning"
-                             ng-show="serviceForm.description.$error.required && serviceForm.description.$dirty">
+                             ng-show="roomForm.description.$error.required && roomForm.description.$dirty">
                             Pole jest wymagane
                         </div>
                     </div>
                 </div>
                 <div ng-if="createNew" class="btn-group">
-                    <button type="submit" class="btn btn-success" ng-click="saveNewService()"
-                            ng-disabled="serviceForm.$invalid">
+                    <button type="submit" class="btn btn-success" ng-click="saveNewRoom()"
+                            ng-disabled="roomForm.$invalid">
                         Dodaj
                     </button>
                 </div>
                 <div ng-if="!createNew" class="btn-group">
-                    <button type="submit" class="btn btn-success" ng-click="editService()"
-                            ng-disabled="serviceForm.$invalid">
+                    <button type="submit" class="btn btn-success" ng-click="editRoom()"
+                            ng-disabled="roomForm.$invalid">
                         Edytuj
                     </button>
-                    <button class="btn btn-warning" ng-click="removeService()">
+                    <button class="btn btn-warning" ng-click="removeRoom()">
                         Usuń
                     </button>
                 </div>
@@ -82,31 +82,31 @@
         </div>
 
         <div ng-if="!canManageRooms">
-            <h4 class="form-header">Informacje o usłudze {{ serviceData.name }}</h4>
+            <h4 class="form-header">Informacje o sali {{ roomData.name }}</h4>
             <div class="row">
                 <div class="col-md-4">
-                    Nazwa usługi:
+                    Nazwa sali:
                 </div>
                 <div class="col-md-8">
-                    {{ serviceData.name }}
+                    {{ roomData.name }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    Opis usługi:
+                    Opis sali:
                 </div>
                 <div class="col-md-8">
-                    <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="Service description"
-                              ng-model="serviceData.description" disabled></textarea>
+                    <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="Room description"
+                              ng-model="roomData.description" disabled></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    Cena usługi (PLN/dzień):
+                    Cena sali (PLN/dzień):
                 </div>
                 <div class="col-md-8">
-                    {{ serviceData.price + 'PLN' }}
-                    <span ng-if="!helper.wholeDay">{{serviceData.timePeriod }}</span>
+                    {{ roomData.price + 'PLN' }}
+                    <span ng-if="!helper.wholeDay">{{roomData.timePeriod }}</span>
                 </div>
             </div>
         </div>

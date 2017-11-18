@@ -2,7 +2,7 @@
 <html ng-app="myApp">
 <head>
     <meta charset="UTF-8">
-    <title>Booking Microservices</title>
+    <title>Booking Rooms</title>
     <link rel="stylesheet" type="text/css" href="/assets/lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/lib/angular-material/angular-material.css">
     <link rel="stylesheet" type="text/css" href="/app/shared/global.css">
@@ -22,16 +22,22 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!--<a class="navbar-brand"><img src="/assets/img/logo.png" alt="logo"/></a>-->
-                <a class="navbar-brand" ng-if="!globalUser.login" aria-selected="true" ng-href="#!/login">Booking Microservices</a>
-                <a class="navbar-brand" ng-if="globalUser.login" aria-selected="true" ng-href="#!/account">Booking Microservices</a>
+                <a ng-href="#!/main">
+                    <div class="navbar-brand">
+                        <img class="navbar-logo-img" src="/assets/img/logo.png" alt="logo"/>
+                    </div>
+                </a>
+                <!--<a class="navbar-brand" aria-selected="true" ng-href="#!/main">Booking Rooms</a>-->
+                <!--<a class="navbar-brand" ng-if="globalUser.login" aria-selected="true" ng-href="#!/main">Booking Rooms</a>-->
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a ng-href="#!/services">Usługi</a></li>
+                <ul class="nav navbar-nav navbar-buttons-container">
+                    <li><a ng-href="#!/rooms">Pokoje</a></li>
                     <li ng-if="globalUser.login"><a ng-href="#!/bookings">Tworzenie rezerwacji</a></li>
                     <li ng-if="globalUser.permissions.canManageBookings"><a ng-href="#!/bookingsManagement">Rezerwacje</a></li>
                     <li ng-if="globalUser.permissions.canManageUsers"><a ng-href="#!/users">Użytkownicy</a></li>
                     <li ng-if="globalUser.login"><a ng-href="#!/account">Moje konto</a></li>
+                    <li><a ng-href="#!/about">O nas</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="globalUser.login"><a ng-href="#!/login" ng-click="logout()">{{ globalUser.login }} <i>
@@ -48,8 +54,7 @@
 
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-        <p class="navbar-text pull-left">2016 Piotr Bubel Praca Inżynierska. Tworzenie internetowych aplikacji
-            biznesowych przy wykorzystaniu architektury mikroserwisów.</p>
+        <p class="navbar-text pull-left footer-text">Booking Rooms - Piotr Bubel, Sebastian Kaźmierczak</p>
     </div>
 </div>
 
@@ -75,13 +80,14 @@
 <script src="/app.js"></script>
 <script src="/app/app.config.js"></script>
 <script src="/app/shared/endpoints/loginFactory.js"></script>
-<script src="/app/shared/endpoints/servicesFactory.js"></script>
+<script src="/app/shared/endpoints/roomsFactory.js"></script>
 <script src="/app/shared/endpoints/usersFactory.js"></script>
 <script src="/app/shared/endpoints/bookingFactory.js"></script>
-<script src="/app/components/services/servicesController.js"></script>
+<script src="/app/components/rooms/roomsController.js"></script>
 <script src="/app/components/users/usersController.js"></script>
 <script src="/app/components/login/loginController.js"></script>
 <script src="/app/components/account/accountController.js"></script>
+<script src="/app/components/about/aboutController.js"></script>
 <script src="/app/components/booking/bookingController.js"></script>
 <script src="/app/components/booking/bookingManagementController.js"></script>
 

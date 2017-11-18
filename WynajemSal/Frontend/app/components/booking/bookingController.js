@@ -1,6 +1,6 @@
 'use strict';
 
-myApp.controller("bookingController", function ($scope, $timeout, $filter, $rootScope, servicesFactory, bookingFactory) {
+myApp.controller("bookingController", function ($scope, $timeout, $filter, $rootScope, roomsFactory, bookingFactory) {
 
 
     $scope.userLoggedIn = $rootScope.globalUser && $rootScope.globalUser.login;
@@ -9,12 +9,12 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
     }
 
     $scope.createNew = true;
-    $scope.serviceData = {
+    $scope.roomData = {
         name: '',
         description: '',
         price: 1
     };
-    $scope.services = [];
+    $scope.rooms = [];
     $scope.bookingToSave = {
         bookingDate: new Date(),
         bookingDescription: ''
@@ -59,35 +59,35 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
         }, 3000);
     };
 
-    var getServicesList = function () {
-        servicesFactory.getList()
+    var getRoomsList = function () {
+        roomsFactory.getList()
             .then(
                 function (response) {
-                    $scope.services = response.data.list;
-                    $scope.changeSelected($scope.services[0]);
+                    $scope.rooms = response.data.list;
+                    $scope.changeSelected($scope.rooms[0]);
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania listy usług ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania listy pokojów ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
                 });
     };
-    getServicesList();
+    getRoomsList();
 
     $scope.changeSelected = function (name) {
-        servicesFactory.getDetails(name)
+        roomsFactory.getDetails(name)
             .then(
                 function (response) {
-                    $scope.serviceData = response.data;
-                    bookingFactory.getDates($scope.serviceData.name, $filter('date')(new Date(), 'yyyy')).then(
+                    $scope.roomData = response.data;
+                    bookingFactory.getDates($scope.roomData.name, $filter('date')(new Date(), 'yyyy')).then(
                         function (response) {
                             notAvailableDates = response.data.list;
                         },
                         function (error) {
                             if (error.data) {
-                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji usługi ', error.data.message);
+                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji pokoju ', error.data.message);
                             } else {
                                 messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                             }
@@ -115,7 +115,7 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
     $scope.saveBooking = function () {
         var bookingToSave = {
             userLogin: $scope.userLogin,
-            serviceName: $scope.serviceData.name,
+            roomName: $scope.roomData.name,
             date: $filter('date')($scope.bookingToSave.bookingDate, 'yyyy-MM-dd'),
             description: $scope.bookingToSave.bookingDescription
         };
@@ -125,13 +125,13 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
                     messageHandler.showSuccessMessage('Dodano pomyślnie');
                     $scope.bookingToSave.bookingDescription = "";
                     $scope.bookingToSave.bookingDate = new Date();
-                    bookingFactory.getDates($scope.serviceData.name, $filter('date')(new Date(), 'yyyy')).then(
+                    bookingFactory.getDates($scope.roomData.name, $filter('date')(new Date(), 'yyyy')).then(
                         function (response) {
                             notAvailableDates = response.data.list;
                         },
                         function (error) {
                             if (error.data) {
-                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji usługi ', error.data.message);
+                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji pokoju ', error.data.message);
                             } else {
                                 messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                             }
@@ -140,7 +140,7 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
                 function (error) {
                     if (error.data) {
                         if (error.data.message.includes('duplicate')) {
-                            error.data.message = ' Usługa jest już zarezerwowana w podanym dniu.';
+                            error.data.message = ' Pokój jest już zarezerwowana w podanym dniu.';
                         }
                         messageHandler.showErrorMessage('Błąd przy tworzeniu rezerwacji ', error.data.message);
                     } else {

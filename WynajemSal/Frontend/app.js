@@ -7,9 +7,9 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMessages', 'ngCookies', 'ngMa
             $routeProvider.when('/login', {
                 controller: 'loginController',
                 templateUrl: '/app/components/login/loginView.html'
-            }).when('/services', {
-                controller: 'servicesController',
-                templateUrl: '/app/components/services/servicesView.html'
+            }).when('/rooms', {
+                controller: 'roomsController',
+                templateUrl: '/app/components/rooms/roomsView.html'
             }).when('/bookings', {
                 controller: 'bookingController',
                 templateUrl: '/app/components/booking/bookingCreateView.html'
@@ -25,8 +25,11 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMessages', 'ngCookies', 'ngMa
             }).when('/main', {
                 controller: 'navbarController',
                 templateUrl: '/app/components/main/mainView.html'
+            }).when('/about', {
+                controller: 'aboutController',
+                templateUrl: '/app/components/about/aboutView.html'
             }).otherwise({
-                redirectTo: '/login'
+                redirectTo: '/main'
             });
             $locationProvider.html5Mode(false).hashPrefix('!');
         }]);

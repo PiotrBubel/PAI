@@ -7,7 +7,7 @@ db.Bookings.drop();
 db.createCollection("Bookings", {
     validator: {
         $and: [{
-            serviceName: {
+            roomName: {
                 $type: "string",
                 $exists: true
             },
@@ -35,7 +35,7 @@ db.createCollection("Bookings", {
 db.Bookings.createIndex(
     {
         userLogin: 1,
-        serviceName: 1,
+        roomName: 1,
         date: 1
     },
     {unique: true}

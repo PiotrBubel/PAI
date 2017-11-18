@@ -1,6 +1,6 @@
 'use strict';
 
-myApp.controller("accountController", function ($scope, $timeout, bookingFactory, servicesFactory, usersFactory, $rootScope) {
+myApp.controller("accountController", function ($scope, $timeout, bookingFactory, roomsFactory, usersFactory, $rootScope) {
 
     $scope.userLoggedIn = $rootScope.globalUser && $rootScope.globalUser.login;
     if ($scope.userLoggedIn) {
@@ -21,13 +21,13 @@ myApp.controller("accountController", function ($scope, $timeout, bookingFactory
                 .then(
                     function (response) {
                         $scope.selected = response.data;
-                        servicesFactory.getDetails($scope.selected.serviceName)
+                        roomsFactory.getDetails($scope.selected.roomName)
                             .then(function (response) {
-                                    $scope.selected.service = response.data;
+                                    $scope.selected.room = response.data;
                                 },
                                 function (error) {
                                     if (error.data) {
-                                        messageHandler.showErrorMessage('Błąd pobierania szczegółów usługi ', error.data.message);
+                                        messageHandler.showErrorMessage('Błąd pobierania szczegółów pokoju ', error.data.message);
                                     } else {
                                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                                     }

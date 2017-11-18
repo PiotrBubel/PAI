@@ -1,18 +1,18 @@
 'use strict';
 
-myApp.controller("servicesController", function ($scope, $timeout, servicesFactory, $rootScope) {
+myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $rootScope) {
 
-    $scope.canManageRooms = $rootScope.globalUser && $rootScope.globalUser.permissions && $rootScope.globalUser.permissions.canManageServices;
+    $scope.canManageRooms = $rootScope.globalUser && $rootScope.globalUser.permissions && $rootScope.globalUser.permissions.canManageRooms;
 
     $scope.createNew = true;
-    $scope.services = [];
-    $scope.serviceData = {
+    $scope.rooms = [];
+    $scope.roomData = {
         description: '',
         price: 1
     };
 
-    var clearData = angular.copy($scope.serviceData);
-    var rawData = angular.copy($scope.serviceData);
+    var clearData = angular.copy($scope.roomData);
+    var rawData = angular.copy($scope.roomData);
 
     var messageHandler = {};
     messageHandler.showErrorMessage = function (message, description) {
@@ -52,17 +52,17 @@ myApp.controller("servicesController", function ($scope, $timeout, servicesFacto
     };
 
     var refreshList = function () {
-        servicesFactory.getList()
+        roomsFactory.getList()
             .then(
                 function (response) {
-                    $scope.services = response.data.list;
+                    $scope.rooms = response.data.list;
                     if (!$scope.canManageRooms) {
-                        $scope.changeSelected($scope.services[0]);
+                        $scope.changeSelected($scope.rooms[0]);
                     }
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania listy usług ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania listy pokojów ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -71,16 +71,16 @@ myApp.controller("servicesController", function ($scope, $timeout, servicesFacto
     refreshList();
 
     $scope.changeSelected = function (name) {
-        servicesFactory.getDetails(name)
+        roomsFactory.getDetails(name)
             .then(
                 function (response) {
-                    $scope.serviceData = response.data;
+                    $scope.roomData = response.data;
                     rawData = response.data;
                     $scope.createNew = false;
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania szczegółów usługi ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania szczegółów pokoju ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -89,33 +89,33 @@ myApp.controller("servicesController", function ($scope, $timeout, servicesFacto
 
     $scope.setNew = function () {
         $scope.createNew = true;
-        $scope.serviceData = angular.copy(clearData);
-        delete($scope.serviceData.name);
+        $scope.roomData = angular.copy(clearData);
+        delete($scope.roomData.name);
     };
 
-    $scope.saveNewService = function () {
-        servicesFactory.create($scope.serviceData)
+    $scope.saveNewRoom = function () {
+        roomsFactory.create($scope.roomData)
             .then(
                 function () {
                     messageHandler.showSuccessMessage('Dodano pomyślnie');
-                    $scope.changeSelected($scope.serviceData.name);
+                    $scope.changeSelected($scope.roomData.name);
                     $scope.createNew = false;
                     refreshList();
                 },
                 function (error) {
                     if (error.data) {
                         if (error.data.message.includes('duplicate')) {
-                            error.data.message = ' Usługa o podanej nazwie już istnieje';
+                            error.data.message = ' Pokój o podanej nazwie już istnieje';
                         }
-                        messageHandler.showErrorMessage('Błąd przy tworzeniu usługi', error.data.message);
+                        messageHandler.showErrorMessage('Błąd przy tworzeniu pokoju', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
                 });
     };
 
-    $scope.removeService = function () {
-        servicesFactory.remove($scope.serviceData.name)
+    $scope.removeRoom = function () {
+        roomsFactory.remove($scope.roomData.name)
             .then(
                 function () {
                     messageHandler.showSuccessMessage('Usunięto pomyślnie');
@@ -124,26 +124,26 @@ myApp.controller("servicesController", function ($scope, $timeout, servicesFacto
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd przy usuwaniu usługi ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd przy usuwaniu pokoju ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
                 });
     };
 
-    $scope.editService = function () {
-        var newData = angular.copy($scope.serviceData);
+    $scope.editRoom = function () {
+        var newData = angular.copy($scope.roomData);
         delete(newData.name);
-        servicesFactory.edit($scope.serviceData.name, newData)
+        roomsFactory.edit($scope.roomData.name, newData)
             .then(
                 function () {
                     messageHandler.showSuccessMessage('Edytowano pomyślnie');
                     refreshList();
-                    $scope.changeSelected($scope.serviceData.name);
+                    $scope.changeSelected($scope.roomData.name);
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd podczas edycji usługi', error.data.message);
+                        messageHandler.showErrorMessage('Błąd podczas edycji pokoju', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }

@@ -35,10 +35,10 @@ class BookingDBManager {
     }
 
     static void getTakenDates(Message<JsonObject> inMessage, MongoClient mongoClient) {
-        JsonObject query = new JsonObject().put("serviceName", inMessage.body().getString("serviceName")
+        JsonObject query = new JsonObject().put("roomName", inMessage.body().getString("roomName")
         ).put("date", new JsonObject().put("$regex", "^" + inMessage.body().getString("date")));
 
-        FindOptions options = new FindOptions().setFields(new JsonObject().put("serviceName", 0).put("userLogin", 0)
+        FindOptions options = new FindOptions().setFields(new JsonObject().put("roomName", 0).put("userLogin", 0)
                 .put("_id", 0).put("description", 0).put("createdDate", 0));
 
         mongoClient.findWithOptions(COLLECTION_BOOKINGS, query, options, response -> {
