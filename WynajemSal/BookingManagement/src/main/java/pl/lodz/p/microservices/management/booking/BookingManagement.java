@@ -184,7 +184,6 @@ public class BookingManagement extends AbstractVerticle {
     }
 
 
-    // FIXME nie wiem czy bedzie wykorzystywane
     private void editBooking(Message<JsonObject> inMessage) {
         if (inMessage.body() == null) {
             log.error("Received EDIT_BOOKING command without json object");

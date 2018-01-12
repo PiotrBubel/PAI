@@ -162,12 +162,12 @@ public class RestApi extends AbstractVerticle {
                 parseBodyToJson(context.getBodyAsString()),
                 true));
 
-//        router.put(BOOKING_ENDPOINT + "/:id").handler(context -> requestHandler(context,
-//                BookingManagementMethods.EDIT_BOOKING,
-//                BOOKINGS_MANAGEMENT_SERVICE_ADDRESS,
-//                "id",
-//                parseBodyToJson(context.getBodyAsString()),
-//                true));
+        router.put(BOOKING_ENDPOINT + "/:id").handler(context -> requestHandler(context,
+                BookingManagementMethods.EDIT_BOOKING,
+                BOOKINGS_MANAGEMENT_SERVICE_ADDRESS,
+                "id",
+                parseBodyToJson(context.getBodyAsString()),
+                true));
 
         vertx.createHttpServer().requestHandler(router::accept).listen(8094);
     }

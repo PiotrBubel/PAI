@@ -1,6 +1,6 @@
 'use strict';
 
-myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $rootScope) {
+myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $rootScope, $interval) {
 
     $scope.canManageRooms = $rootScope.globalUser && $rootScope.globalUser.permissions && $rootScope.globalUser.permissions.canManageRooms;
 
@@ -8,7 +8,8 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
     $scope.rooms = [];
     $scope.roomData = {
         description: '',
-        price: 1
+        price: 1,
+        type: ''
     };
 
     var clearData = angular.copy($scope.roomData);
@@ -62,7 +63,7 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania listy pokojów ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania listy sal ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -80,7 +81,7 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania szczegółów pokoju ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania szczegółów sali ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -107,7 +108,7 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
                         if (error.data.message.includes('duplicate')) {
                             error.data.message = ' Pokój o podanej nazwie już istnieje';
                         }
-                        messageHandler.showErrorMessage('Błąd przy tworzeniu pokoju', error.data.message);
+                        messageHandler.showErrorMessage('Błąd przy tworzeniu sali', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -124,7 +125,7 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd przy usuwaniu pokoju ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd przy usuwaniu sali ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -143,7 +144,7 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd podczas edycji pokoju', error.data.message);
+                        messageHandler.showErrorMessage('Błąd podczas edycji sali', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
@@ -152,5 +153,35 @@ myApp.controller("roomsController", function ($scope, $timeout, roomsFactory, $r
 
     $scope.exists = function (givenObject) {
         return typeof givenObject !== 'undefined';
-    }
+    };
+
+    var interval = null;
+    var carousel = null;
+
+    $scope.initCarousel = function () {
+        carousel = new Siema({
+            selector: '.siema',
+            duration: 200,
+            easing: 'ease-out',
+            perPage: 1,
+            startIndex: 0,
+            draggable: true,
+            multipleDrag: true,
+            threshold: 20,
+            loop: true
+        });
+
+        var moveCarousel = function () {
+            carousel.next();
+        };
+
+        interval = $interval(moveCarousel, 5000);
+    };
+
+    $scope.$on('$destroy', function () {
+        if (interval) {
+            $interval.cancel(interval);
+            carousel.destroy();
+        }
+    })
 });

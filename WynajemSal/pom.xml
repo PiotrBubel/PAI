@@ -20,6 +20,10 @@
         <module>BookingManagement</module>
         <module>AuthService</module>
         <module>RestApi</module>
+
+        <module>MockCatering</module>
+
+
         <module>Frontend</module>
     </modules>
 </project>

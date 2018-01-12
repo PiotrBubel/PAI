@@ -60,7 +60,7 @@
                 <div class="col-md-8">
                     <div ng-if="userData.permissions.canManageUsers">użytkowników </div>
                     <div ng-if="userData.permissions.canManageBookings">rezerwacji </div>
-                    <div ng-if="userData.permissions.canManageRooms">pokojów </div>
+                    <div ng-if="userData.permissions.canManageRooms">sal </div>
                 </div>
             </div>
 
@@ -111,11 +111,19 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    Opis pokojów:
+                    Opis sali:
                 </div>
                 <div class="col-md-8">
                     <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="roomSescription"
                               ng-model="selected.room.description" disabled></textarea>
+                </div>
+            </div>
+            <div class="row" ng-if="selected.orderId >= 0">
+                <div class="col-md-4">
+                    Status zamówienia kateringu:
+                </div>
+                <div class="col-md-8">
+                    {{selected.orderStatus}}
                 </div>
             </div>
         </div>

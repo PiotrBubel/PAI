@@ -26,6 +26,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="btn-group">
                 <button type="submit" class="btn btn-success" ng-click="login(loginData.login, loginData.password)"
                         ng-disabled="loginForm.$invalid">
@@ -106,9 +107,18 @@
                 </div>
             </div>
 
+            <div class="row default-padding">
+                <div class="col-md-1 form-group" ng-init="approvedRegulations = false">
+                    <input type="checkbox" name="approvedRegulations" ng-model="approvedRegulations">
+                </div>
+                <div class="col-md-11">
+                    Oświadczam, że zapoznałem/am się z <a ng-href="#!/about">regulaminem</a> i akceptuję wszystkie zawarte w nim warunki.
+                </div>
+            </div>
+
             <div class="btn-group">
                 <button type="submit" class="btn btn-success" ng-click="saveNewUser()"
-                        ng-disabled="newUserForm.$invalid">
+                        ng-disabled="newUserForm.$invalid || !approvedRegulations">
                     Zapisz
                 </button>
             </div>

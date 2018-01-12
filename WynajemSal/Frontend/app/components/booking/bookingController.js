@@ -1,7 +1,6 @@
 'use strict';
 
-myApp.controller("bookingController", function ($scope, $timeout, $filter, $rootScope, roomsFactory, bookingFactory) {
-
+myApp.controller("bookingController", function ($scope, $timeout, $filter, $rootScope, roomsFactory, bookingFactory, cateringFactory) {
 
     $scope.userLoggedIn = $rootScope.globalUser && $rootScope.globalUser.login;
     if ($scope.userLoggedIn) {
@@ -68,13 +67,32 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
                 },
                 function (error) {
                     if (error.data) {
-                        messageHandler.showErrorMessage('Błąd pobierania listy pokojów ', error.data.message);
+                        messageHandler.showErrorMessage('Błąd pobierania listy sal ', error.data.message);
                     } else {
                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
                 });
     };
     getRoomsList();
+
+    var getMenu = function () {
+        cateringFactory.getList()
+            .then(
+                function (response) {
+                    $scope.menu = response.data;
+                    angular.forEach($scope.menu, function (menuElement) {
+                        menuElement.dishAmount = 0;
+                    })
+                },
+                function (error) {
+                    if (error.data) {
+                        messageHandler.showErrorMessage('Błąd pobierania menu z zewnętrznego serwisu ', error.data.message);
+                    } else {
+                        messageHandler.showErrorMessage('Błąd ', "Brak połączenia z zewnętrznym serwisem");
+                    }
+                });
+    };
+    getMenu();
 
     $scope.changeSelected = function (name) {
         roomsFactory.getDetails(name)
@@ -87,7 +105,7 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
                         },
                         function (error) {
                             if (error.data) {
-                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji pokoju ', error.data.message);
+                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji sali ', error.data.message);
                             } else {
                                 messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                             }
@@ -113,39 +131,90 @@ myApp.controller("bookingController", function ($scope, $timeout, $filter, $root
     };
 
     $scope.saveBooking = function () {
+
+        var sendBooking = function(bookingToSave) {
+            bookingFactory.create(bookingToSave)
+                .then(
+                    function () {
+                        messageHandler.showSuccessMessage('Dodano pomyślnie');
+                        $scope.bookingToSave.bookingDescription = "";
+                        $scope.bookingToSave.bookingDate = new Date();
+                        bookingFactory.getDates($scope.roomData.name, $filter('date')(new Date(), 'yyyy')).then(
+                            function (response) {
+                                notAvailableDates = response.data.list;
+                            },
+                            function (error) {
+                                if (error.data) {
+                                    messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji sali ', error.data.message);
+                                } else {
+                                    messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
+                                }
+                            });
+                    },
+                    function (error) {
+                        if (error.data) {
+                            if (error.data.message.includes('duplicate')) {
+                                error.data.message = ' Pokój jest już zarezerwowana w podanym dniu.';
+                            }
+                            messageHandler.showErrorMessage('Błąd przy tworzeniu rezerwacji ', error.data.message);
+                        } else {
+                            messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
+                        }
+                    });
+        };
+
         var bookingToSave = {
             userLogin: $scope.userLogin,
             roomName: $scope.roomData.name,
             date: $filter('date')($scope.bookingToSave.bookingDate, 'yyyy-MM-dd'),
-            description: $scope.bookingToSave.bookingDescription
+            description: $scope.bookingToSave.bookingDescription,
+            orderId: '-1'
         };
-        bookingFactory.create(bookingToSave)
-            .then(
-                function () {
-                    messageHandler.showSuccessMessage('Dodano pomyślnie');
-                    $scope.bookingToSave.bookingDescription = "";
-                    $scope.bookingToSave.bookingDate = new Date();
-                    bookingFactory.getDates($scope.roomData.name, $filter('date')(new Date(), 'yyyy')).then(
-                        function (response) {
-                            notAvailableDates = response.data.list;
-                        },
-                        function (error) {
-                            if (error.data) {
-                                messageHandler.showErrorMessage('Błąd pobierania zajętych dat rezerwacji pokoju ', error.data.message);
-                            } else {
-                                messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
-                            }
+
+        var orderToSend = {
+            date: bookingToSave.date + 'T08:00:00.000Z',
+            orderElement:
+                [
+                    // {'dishAmount':1,'dishId':1},
+                ],
+            user: null,
+            guestUser: {'id':0,'firstname':'RentingRooms','lastname':'GuestUser','email':'orders@renting.com'},
+            statusId: 1,
+            address: $scope.roomData.address
+        };
+        var order = false;
+
+        angular.forEach($scope.menu, function (menuItem) {
+            if (menuItem.dishAmount > 0) {
+                order = true;
+                orderToSend.orderElement.push( {
+                    dishAmount: menuItem.dishAmount,
+                    dishId: menuItem.id || menuItem.Id
+                })
+            }
+        });
+
+        if (order) {
+            cateringFactory.create(orderToSend)
+                .then(
+                    function (response) {
+                        bookingToSave.orderId = '' + response.data.id;
+                        sendBooking(bookingToSave);
+                    },
+                    function (error) {
+                        angular.forEach($scope.menu, function (menuItem) {
+                            menuItem.dishAmount = 0;
                         });
-                },
-                function (error) {
-                    if (error.data) {
-                        if (error.data.message.includes('duplicate')) {
-                            error.data.message = ' Pokój jest już zarezerwowana w podanym dniu.';
+                        if (error.data) {
+                            messageHandler.showErrorMessage('Błąd przy tworzeniu zamówienia ', error.data.message);
+                        } else {
+                            messageHandler.showErrorMessage('Błąd ', "Brak połączenia z zewnętrznym serwisem kateringu");
                         }
-                        messageHandler.showErrorMessage('Błąd przy tworzeniu rezerwacji ', error.data.message);
-                    } else {
-                        messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                     }
-                });
+                )
+
+        } else {
+            sendBooking(bookingToSave);
+        }
     }
 });

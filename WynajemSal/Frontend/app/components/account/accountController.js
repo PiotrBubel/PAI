@@ -1,6 +1,6 @@
 'use strict';
 
-myApp.controller("accountController", function ($scope, $timeout, bookingFactory, roomsFactory, usersFactory, $rootScope) {
+myApp.controller("accountController", function ($scope, $timeout, bookingFactory, roomsFactory, usersFactory, cateringFactory, $rootScope) {
 
     $scope.userLoggedIn = $rootScope.globalUser && $rootScope.globalUser.login;
     if ($scope.userLoggedIn) {
@@ -27,11 +27,24 @@ myApp.controller("accountController", function ($scope, $timeout, bookingFactory
                                 },
                                 function (error) {
                                     if (error.data) {
-                                        messageHandler.showErrorMessage('Błąd pobierania szczegółów pokoju ', error.data.message);
+                                        messageHandler.showErrorMessage('Błąd pobierania szczegółów sali ', error.data.message);
                                     } else {
                                         messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
                                     }
-                                })
+                                });
+                        if ($scope.selected.orderId >= 0) {
+                            cateringFactory.getStatus($scope.selected.orderId)
+                                .then(function (response) {
+                                        $scope.selected.orderStatus = response.data.status;
+                                    },
+                                    function (error) {
+                                        if (error.data) {
+                                            messageHandler.showErrorMessage('Błąd pobierania szczegółów sali ', error.data.message);
+                                        } else {
+                                            messageHandler.showErrorMessage('Błąd ', "Brak połączenia z API");
+                                        }
+                                    });
+                        }
                     },
                     function (error) {
                         if (error.data) {

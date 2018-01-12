@@ -2,8 +2,26 @@
     text-align:center;
 }
 
+.background-element {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-image: url(/assets/img/background.jpg);
+    opacity: .3;
+}
+
+.navbar-default {
+    background-color: aliceblue;
+    border-color: lightskyblue;
+}
+
+body {
+    background-color: unset;
+}
+
 body > .container {
-    padding: 40px 10px;
+    padding: 25px 10px;
+    background-color: aliceblue;
 }
 
 .container .text-muted {
@@ -59,4 +77,13 @@ body > .container {
 
 .footer-text {
     font-size: 12px;
+}
+
+.room-img {
+    max-height: 650px;
+    width: 100%;
+}
+
+.default-padding {
+    padding: 15px;
 }

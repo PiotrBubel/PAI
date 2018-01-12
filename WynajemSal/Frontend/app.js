@@ -34,7 +34,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMessages', 'ngCookies', 'ngMa
             $locationProvider.html5Mode(false).hashPrefix('!');
         }]);
 
-myApp.controller("navbarController", function ($http, $scope, $cookies, $location, $rootScope) {
+myApp.controller("navbarController", function ($http, $scope, $cookies, $location, $rootScope, $interval) {
     $rootScope.globalUser = $cookies.getObject('user');
     $rootScope.token = $cookies.getObject('token');
     $http.defaults.headers.post["Content-Type"] = "text/plain";
@@ -45,5 +45,25 @@ myApp.controller("navbarController", function ($http, $scope, $cookies, $locatio
         $cookies.remove('token');
         delete($rootScope.globalUser);
         delete($rootScope.token);
+    };
+
+    $scope.initCarousel = function () {
+        var carousel = new Siema({
+            selector: '.siema',
+            duration: 200,
+            easing: 'ease-out',
+            perPage: 1,
+            startIndex: 0,
+            draggable: true,
+            multipleDrag: true,
+            threshold: 20,
+            loop: true
+        });
+
+        var moveCarousel = function () {
+            carousel.next();
+        };
+
+        $interval(moveCarousel, 5000);
     };
 });

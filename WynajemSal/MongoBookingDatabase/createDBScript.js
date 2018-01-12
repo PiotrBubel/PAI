@@ -23,6 +23,10 @@ db.createCollection("Bookings", {
                 $type: "string",
                 $exists: true
             },
+            orderId: {
+                $type: "string",
+                $exists: true
+            },
             createdDate: {
                 $type: "string",
                 $exists: true

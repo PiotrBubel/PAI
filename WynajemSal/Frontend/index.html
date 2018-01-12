@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
+<link rel="stylesheet" type="text/css" href="/assets/lib/cookiesconsent/cookieconsent.min.css" />
+<script src="/assets/lib/cookiesconsent/cookiesconsent.min.js"></script>
+<script>
+    window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#237afc"
+                },
+                "button": {
+                    "background": "#fff",
+                    "text": "#237afc"
+                }
+            },
+            "theme": "classic",
+            "position": "bottom-left",
+            "content": {
+                "message": "Informujemy, że ta strona korzysta z plików cookies. Odwiedzając naszą stronę bez dokonania zmian ustawień swojej przeglądarki, wyrażasz zgodę na wykorzystanie przez nas plików cookies w celu ułatwienia korzystania z serwisu.",
+                "dismiss": "OK!",
+                "link": "Dowiedz się więcej."
+            }
+        })});
+</script>
 <head>
     <meta charset="UTF-8">
-    <title>Booking Rooms</title>
+    <title>Renting Rooms</title>
     <link rel="stylesheet" type="text/css" href="/assets/lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/lib/angular-material/angular-material.css">
     <link rel="stylesheet" type="text/css" href="/app/shared/global.css">
     <base href="/">
 </head>
 <body>
-
+<div class="background-element"></div>
 <div class="container" ng-controller="navbarController">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -32,7 +55,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-buttons-container">
-                    <li><a ng-href="#!/rooms">Pokoje</a></li>
+                    <li><a ng-href="#!/rooms">Sale</a></li>
                     <li ng-if="globalUser.login"><a ng-href="#!/bookings">Tworzenie rezerwacji</a></li>
                     <li ng-if="globalUser.permissions.canManageBookings"><a ng-href="#!/bookingsManagement">Rezerwacje</a></li>
                     <li ng-if="globalUser.permissions.canManageUsers"><a ng-href="#!/users">Użytkownicy</a></li>
@@ -54,7 +77,7 @@
 
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-        <p class="navbar-text pull-left footer-text">Booking Rooms - Piotr Bubel, Sebastian Kaźmierczak</p>
+        <p class="navbar-text pull-left footer-text">Renting Rooms Sp. z o.o., ul. Tymienieckiego 25, 61-891 Łódź, NIP 777-123-19-79, KRS 0001234567</p>
     </div>
 </div>
 
@@ -83,6 +106,7 @@
 <script src="/app/shared/endpoints/roomsFactory.js"></script>
 <script src="/app/shared/endpoints/usersFactory.js"></script>
 <script src="/app/shared/endpoints/bookingFactory.js"></script>
+<script src="/app/shared/endpoints/cateringFactory.js"></script>
 <script src="/app/components/rooms/roomsController.js"></script>
 <script src="/app/components/users/usersController.js"></script>
 <script src="/app/components/login/loginController.js"></script>
@@ -90,6 +114,8 @@
 <script src="/app/components/about/aboutController.js"></script>
 <script src="/app/components/booking/bookingController.js"></script>
 <script src="/app/components/booking/bookingManagementController.js"></script>
+
+<script src="/assets/lib/siema.min.js"></script>
 
 </body>
 </html>

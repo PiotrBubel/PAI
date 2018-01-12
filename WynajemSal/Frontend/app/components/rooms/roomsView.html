@@ -50,6 +50,20 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
+                        Pojemność sali (osoby):
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.capacity.$error.required && roomForm.capacity.$dirty }">
+                        <input class="form-control" type="number" name="capacity" ng-model="roomData.capacity"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="roomForm.price.$error.required && roomForm.capacity.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         Opis sali:
                     </div>
                     <div class="col-md-8 form-group"
@@ -63,6 +77,96 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row" ng-if="!createNew">
+                    <div class="col-md-4">
+                        Typ sali:
+                    </div>
+                    <div class="col-md-8 form-group">
+                        {{ roomData.type }}
+                    </div>
+                </div>
+
+                <div class="row" ng-if="createNew">
+                    <div class="col-md-4">
+                        Typ sali:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.type.$error.required && roomForm.type.$dirty }">
+                        <select class="form-control" name="type" ng-model="roomData.type" ng-required="true">
+                            <option value="Konferencyjna">Konferencyjna</option>
+                            <option value="Specjalistyczna">Specjalistyczna</option>
+                            <option value="Bankietowa">Bankietowa</option>
+                        </select>
+                        <div class="color-warning" ng-show="roomForm.type.$error.required && roomForm.type.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        Adres:
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        Ulica:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.street.$error.required && roomForm.street.$dirty }">
+                        <input class="form-control" type="text" name="street" ng-model="roomData.address.street"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="roomForm.price.$error.required && roomForm.street.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Numer:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.venueNumber.$error.required && roomForm.venueNumber.$dirty }">
+                        <input class="form-control" type="text" name="venueNumber" ng-model="roomData.address.venueNumber"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="roomForm.price.$error.required && roomForm.venueNumber.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Kod:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.zipcode.$error.required && roomForm.zipcode.$dirty }">
+                        <input class="form-control" type="text" name="zipcode" ng-model="roomData.address.zipcode"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="roomForm.price.$error.required && roomForm.zipcode.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        Miasto:
+                    </div>
+                    <div class="col-md-8 form-group"
+                         ng-class="{ 'has-error': roomForm.city.$error.required && roomForm.city.$dirty }">
+                        <input class="form-control" type="text" name="city" ng-model="roomData.address.city"
+                               ng-required="true">
+                        <div class="color-warning"
+                             ng-show="roomForm.price.$error.required && roomForm.city.$dirty">
+                            Pole jest wymagane
+                        </div>
+                    </div>
+                </div>
+
                 <div ng-if="createNew" class="btn-group">
                     <button type="submit" class="btn btn-success" ng-click="saveNewRoom()"
                             ng-disabled="roomForm.$invalid">
@@ -100,6 +204,50 @@
                               ng-model="roomData.description" disabled></textarea>
                 </div>
             </div>
+
+
+            <div class="row">
+                <div class="col-md-12 default-padding">
+                    <!--<div class="col-md-12 default-padding">-->
+                        <img ng-if="roomData.type === 'Bankietowa'" class="room-img" src="/assets/img/sala_b_1.jpg"/>
+                        <!--<img ng-if="roomData.type === 'Bankietowa'" class="room-img" src="/assets/img/sala_b_2.jpg"/>-->
+                        <img ng-if="roomData.type === 'Konferencyjna'" class="room-img" src="/assets/img/sala_k_1.jpg"/>
+                        <!--<img ng-if="roomData.type === 'Konferencyjna'" class="room-img" src="/assets/img/sala_k_3.jpg"/>-->
+                        <!--<img ng-if="roomData.type === 'Specjalistyczna'" class="room-img" src="/assets/img/sala_s_1.png"/>-->
+                        <!--<img ng-if="roomData.type === 'Specjalistyczna'" class="room-img" src="/assets/img/sala_s_2.jpg"/>-->
+                        <img ng-if="roomData.type === 'Specjalistyczna'" class="room-img" src="/assets/img/sala_s_3.jpg"/>
+                    <!--</div>-->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    Pojemność sali:
+                </div>
+                <div class="col-md-8">
+                    {{ roomData.capacity }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Typ sali:
+                </div>
+                <div class="col-md-8">
+                    {{ roomData.type }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Adres sali:
+                </div>
+                <div class="col-md-8">
+                    {{ roomData.address.street + ' ' + roomData.address.venueNumber }}
+                    <br>
+                    {{ roomData.address.zipcode + ' ' + roomData.address.city }}
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-4">
                     Cena sali (PLN/dzień):

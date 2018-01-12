@@ -15,10 +15,39 @@ db.createCollection("Rooms", {
                 $type: "int",
                 $exists: true
             },
+
+            capacity: {
+                $type: "int",
+                $exists: true
+            },
+
             description: {
                 $type: "string",
                 $exists: true
             },
+
+            "address.street": {
+                $type: "string",
+                $exists: true
+            },
+            "address.zipcode": {
+                $type: "string",
+                $exists: true
+            },
+            "address.venueNumber": {
+                $type: "string",
+                $exists: true
+            },
+            "address.city": {
+                $type: "string",
+                $exists: true
+            },
+
+            type: {
+                $type: "string",
+                $exists: true
+            },
+
             createdDate: {
                 $type: "string",
                 $exists: true
@@ -59,32 +88,62 @@ db.createUser({
 print('* Created user RoomsDatabaseProxyUser');
 
 db.Rooms.insert({
-    name: "pokoj1",
-    price: NumberInt(15),
+    name: "Sala 1A",
+    price: NumberInt(300),
+    capacity: NumberInt(50),
     createdDate: "2017-01-02",
-    description: "opis pokoju 1"
+    type: "Konferencyjna",
+    description: "Opis sali 1",
+    address: {
+        street: "ul. Tymienieckiego",
+        venueNumber: "25a",
+        zipcode: "90-350",
+        city: "Łódź"
+    }
 });
 
 db.Rooms.insert({
-    name: "pokoj2",
-    price: NumberInt(15),
+    name: "Sala 2A",
+    price: NumberInt(450),
+    capacity: NumberInt(60),
     createdDate: "2017-01-02",
-    description: "opis pokoju 2"
+    type: "Specjalistyczna",
+    description: "Opis sali 2",
+    address: {
+        street: "ul. Tymienieckiego",
+        venueNumber: "25c",
+        zipcode: "90-350",
+        city: "Łódź"
+    }
 });
 
 db.Rooms.insert({
-    name: "pokoj3",
-    price: NumberInt(30),
+    name: "Sala 3",
+    price: NumberInt(500),
+    capacity: NumberInt(75),
     createdDate: "2017-01-02",
-    description: "opis pokoju 3"
-});
+    type: "Bankietowa",
+    description: "Opis sali 3",
+    address: {
+    street: "ul. Tymienieckiego",
+        venueNumber: "25d",
+        zipcode: "90-350",
+        city: "Łódź"
+}});
 
 db.Rooms.insert({
-    name: "pokoj4",
-    price: NumberInt(60),
+    name: "Sala 4",
+    price: NumberInt(250),
+    capacity: NumberInt(50),
     createdDate: "2017-01-02",
-    description: "opis pokoju 4"
-});
+    type: "Bankietowa",
+    description: "Opis sali 4",
+    address: {
+    street: "ul. Tymienieckiego",
+        venueNumber: "20",
+        zipcode: "90-350",
+        city: "Łódź"
+}});
 
 print('* Inserted rooms into db');
 

@@ -37,11 +37,11 @@
                                 </div>
                                 <div class="row padding-bottom-list">
                                     <div class="col-md-2">
-                                        Nazwa pokoju:
+                                        Nazwa sali:
                                     </div>
                                     <div class="col-md-2 col-sm-10">
                                         <input class="form-control" type="text" name="roomName"
-                                               title="Nazwa pokoju"
+                                               title="Nazwa sali"
                                                ng-model="search.roomName">
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
 
                             <div class="row">
                                 <div class="col-md-2">
-                                    Nazwa pokoju:
+                                    Nazwa sali:
                                 </div>
                                 <div class="col-md-4">
                                     {{selected.roomName}}
@@ -120,11 +120,19 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-2">
-                                    Opis pokoju:
+                                    Opis sali:
                                 </div>
                                 <div class="col-md-4">
                     <textarea class="multiline-text-from-textarea not-resizable col-md-12" name="roomSescription"
                               ng-model="selected.room.description" disabled></textarea>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="selected.room.orderId >= 0">
+                                <div class="col-md-4">
+                                    Status zamówienia kateringu:
+                                </div>
+                                <div class="col-md-8">
+                                    {{selected.orderStatus}}
                                 </div>
                             </div>
                         </div>
@@ -138,7 +146,7 @@
         <div class="row">
             <div class="col-md-3 h4">Login użytkownika</div>
             <div class="col-md-3 h4">Data</div>
-            <div class="col-md-3 h4">Nazwa pokoju</div>
+            <div class="col-md-3 h4">Nazwa sali</div>
             <div class="col-md-3"></div>
         </div>
         <div ng-repeat="booking in bookings | filter:search">
