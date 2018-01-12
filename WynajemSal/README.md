@@ -1,8 +1,6 @@
-# BookingMicroservices
-## Praca inżynierska
-
+# Renting Rooms
 ### Wymagania
-Aplikacja Booking Microservices została przystosowana do uruchamiania w kontenerach programu Docker, na 
+Aplikacja Renting Rooms została przystosowana do uruchamiania w kontenerach programu Docker, na 
 komputerach z systemem operacyjnym Linux.
 Aplikacja wymaga zainstalowanego programu Docker i Docker-compose.
 
@@ -12,7 +10,7 @@ https://docs.docker.com/engine/installation/
 Instrukcja instalacji programu Docker-compose dostępna jest na stronie: 
 https://docs.docker.com/compose/install/
 
-### Instrukcje zbudowania i uruchomienia aplikacji Booking Microservices:
+### Instrukcje zbudowania i uruchomienia aplikacji Renting Rooms:
 Po zainstalowaniu potrzebnych programów aplikację można uruchomić wpisując w konsoli:
 
 > mvn clean package
@@ -23,7 +21,7 @@ Polecenie to zbuduje aplikację i stworzy obrazy programu Docker
 
 Polecenie to uruchomi i odpowiednio połączy ze sobą kontenery programu Docker
 
-Po wykonaniu powyższych poleceń, aplikacja Booking Microservices będzie uruchomiona, w konsoli będą 
+Po wykonaniu powyższych poleceń, aplikacja Renting Rooms będzie uruchomiona, w konsoli będą 
 wypisywane logi, a dostęp do aplikacji będzie możliwy poprzez otworzenie w przeglądarce internetowej 
 adresu: 
 localhost:8097
@@ -49,19 +47,3 @@ mikroserwis, a następnie wpisać w konsoli polecenie:
 
 Dzięki temu uzyskamy zbudowany program wraz z odpowiednim obrazem Docker'a gotowym do uruchomienia.
 
-### Instrukcja uruchomienia testów
-Aby uruchomić testy aplikacji wymagane jest zainstalowanie narzędzie Postman, który z kolei wymaga 
-zainstalowania przeglądarki Google Chrome. 
-
-Przeglądarkę Google Chrome można pobrać ze strony: https://www.google.com/chrome/browser/desktop/index.html
-
-Narzędzie Postman można pobrać ze strony: https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
-
-Po uruchomianiu narzędzia Postman należy zaimportować stworzone testy, znajdujące się w pliku 
-MicroservicesApi.postman_collection.json. Po zaimportowaniu testów należy zaimportować także zmienne 
-środowiskowe z pliku address.postman_environment.json. Oba te pliki znajdują się w katalogu 
-ApiPostmanTests.
-Następnie uruchamiamy 'Collection Runner' (przycisk Runner), wybieramy stworzoną kolekcję testów 
-(MicroservicesApi), zaznaczamy zaimportowane środowisko (address) i klikamy na przycisk Start Tests.
-Wyniki testów będą wyświetlane na bierząco, po prawej stronie okna. Możliwe jest uruchomienie testów
-wielokrotnie, z wybranym opóźnieniem między nimi.
